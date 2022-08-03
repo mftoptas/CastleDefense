@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] GameObject towerPrefab;
+    [SerializeField] bool isPlaceable;
 
-    // Update is called once per frame
-    void Update()
+    void OnMouseDown() // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     {
-        
+        if (isPlaceable)
+        {
+            Instantiate(towerPrefab, transform.position, Quaternion.identity); // Instantiate: Clones the object original and returns the clone.
+            isPlaceable = false; // Make tile not placeable anymore adter adding tower, bacause it already has a tower on it.
+        }
     }
 }
