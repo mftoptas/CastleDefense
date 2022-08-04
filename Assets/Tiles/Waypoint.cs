@@ -6,10 +6,11 @@ public class Waypoint : MonoBehaviour
 {
     [SerializeField] GameObject towerPrefab;
     [SerializeField] bool isPlaceable;
+    public bool IsPlaceable { get { return isPlaceable; } } // Now i can call isPlaceable just like any other method from another script.
 
     void OnMouseDown() // OnMouseDown is called when the user has pressed the mouse button while over the Collider.
     {
-        if (isPlaceable)
+        if(isPlaceable)
         {
             Instantiate(towerPrefab, transform.position, Quaternion.identity); // Instantiate: Clones the object original and returns the clone.
             isPlaceable = false; // Make tile not placeable anymore adter adding tower, bacause it already has a tower on it.
