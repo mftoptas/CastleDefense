@@ -7,9 +7,16 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] int maxHitPoints = 5;
     [SerializeField] int currentHitPoint = 0;
 
-    void Start()
+    Enemy enemy;
+
+    void OnEnable()
     {
         currentHitPoint = maxHitPoints;
+    }
+
+    void Start()
+    {
+        enemy = GetComponent<Enemy>();
     }
 
     void OnParticleCollision(GameObject other)
@@ -23,7 +30,8 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHitPoint <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false); // Rather than destroying our game object and removing it from the pool entirely, this is going to disable it in the hierarchy and then it will be free for the pool to reuse again later.
+            enemy.RewardGold();
         }
     }
 }

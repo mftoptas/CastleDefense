@@ -7,11 +7,18 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
     [SerializeField] [Range(0f, 5f)] float speed = 1f; // Enemy speed coefficient.
 
-    void Start()
+    Enemy enemy;
+
+    void OnEnable()
     {
         FindPath();
         ReturnStart();
         StartCoroutine(FollowPath()); // The execution of a coroutine can be paused at any point using the yield statement. When a yield statement is used, the coroutine pauses execution and automatically resumes at the next frame.
+    }
+
+    void Start()
+    {
+        enemy = GetComponent<Enemy>();
     }
 
     void FindPath()
@@ -31,7 +38,6 @@ public class EnemyMover : MonoBehaviour
         transform.position = path[0].transform.position; // It's going to move our enemy into the first waypoint.
     }
 
-
     IEnumerator FollowPath()
     {
         foreach(Waypoint waypoint in path) // Get started by coroutine.
@@ -49,6 +55,7 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
-        Destroy(gameObject);
+        enemy.StealGold();
+        gameObject.SetActive(false); // Rather than destroying our game object and removing it from the pool entirely, this is going to disable it in the hierarchy and then it will be free for the pool to reuse again later.
     }
 }
