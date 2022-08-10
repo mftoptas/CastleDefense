@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Enemy))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
@@ -25,17 +26,28 @@ public class EnemyMover : MonoBehaviour
     {
         path.Clear(); // So when we find a path, we're going to clear the existing one and then add a new one.
 
-        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Path"); // And this will now find all of the objects tagged as a Path and place it into an array.
+        GameObject parent = GameObject.FindGameObjectWithTag("Path"); // This will then return the path parent object.
 
-        foreach(GameObject waypoint in waypoints)
+        foreach(Transform child in parent.transform) // What this will do now is find that parent object that we've tagged with the path and loop through all of its children in order.
         {
-            path.Add(waypoint.GetComponent<Waypoint>()); // Find the waypoint component on that object and then add that to our list called Path.
+            Waypoint waypoint = child.GetComponent<Waypoint>();
+            
+            if(waypoint != null)
+            {
+                path.Add(waypoint); // Add waypoint to the path.
+            }
         }
     }
 
     void ReturnStart()
     {
         transform.position = path[0].transform.position; // It's going to move our enemy into the first waypoint.
+    }
+
+    void FinishPath()
+    {
+        enemy.StealGold();
+        gameObject.SetActive(false); // Rather than destroying our game object and removing it from the pool entirely, this is going to disable it in the hierarchy and then it will be free for the pool to reuse again later.
     }
 
     IEnumerator FollowPath()
@@ -55,7 +67,7 @@ public class EnemyMover : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
-        enemy.StealGold();
-        gameObject.SetActive(false); // Rather than destroying our game object and removing it from the pool entirely, this is going to disable it in the hierarchy and then it will be free for the pool to reuse again later.
+        
+        FinishPath();
     }
 }
