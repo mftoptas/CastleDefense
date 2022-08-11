@@ -6,10 +6,10 @@ using UnityEngine;
 // What require component does is ensures that the required component that we specify also gets attached to the game object when we attach this script.
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int maxHitPoints = 5;
+    [SerializeField] int maxHitPoints = 3;
     [Tooltip("Adds amount to maxHitpoints when enemy dies.")]
     
-    [SerializeField] int difficultyRamp = 1;
+    [SerializeField] int difficultyRamp = 5;
 
     int currentHitPoint = 0;
 

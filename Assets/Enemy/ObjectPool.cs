@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] [Range(0, 50)] int poolSize = 5;
-    [SerializeField] [Range(0.1f, 30f)] float spawnTimer = 1f; // I want spawnTimer not to be negative or equal to 0 and not to be too much long.
+    [SerializeField] [Range(0.1f, 30f)] float spawnTimer = 2.5f; // I want spawnTimer not to be negative or equal to 0 and not to be too much long.
 
     GameObject[] pool;
 
